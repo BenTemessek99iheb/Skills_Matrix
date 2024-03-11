@@ -1,0 +1,288 @@
+#databaseChangeLog:
+#  - changeSet:
+#      id: create-employee-table
+#      author: houba
+#      changes:
+#        - createTable:
+#            tableName: employee
+#            columns:
+#              - column:
+#                  name: id
+#                  type: uuid
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: username
+#                  type: varchar(255)
+#              - column:
+#                  name: email
+#                  type: varchar(255)
+#              - column:
+#                  name: roles
+#                  type: int
+#              - column:
+#                  name: pp_url
+#                  type: varchar(255)
+#                  constraints:
+#                    nullable: true
+#              - column:
+#                  name: gender
+#                  type: varchar(255)
+#              - column:
+#                  name: description
+#                  type: varchar(255)
+#              - column:
+#                  name: lvl
+#                  type: int
+#                  constraints:
+#                    nullable: true
+#              - column:
+#                  name: exp
+#                  type: int
+#  - changeSet:
+#      id: create-skill-table
+#      author: houba
+#      changes:
+#        - createTable:
+#            tableName: skill
+#            columns:
+#              - column:
+#                  name: id
+#                  type: uuid
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: name
+#                  type: varchar(255)
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: description
+#                  type: varchar(255)
+#              - column:
+#                  name: lvl
+#                  type: int
+#              - column:
+#                  name: created_at
+#                  type: datetime
+#              - column:
+#                  name: category_id
+#                  type: uuid
+#  - changeSet:
+#      id: create-category-table
+#      author: houba
+#      changes:
+#        - createTable:
+#            tableName: category
+#            columns:
+#              - column:
+#                  name: id
+#                  type: uuid
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: name
+#                  type: varchar(255)
+#  - changeSet:
+#      id: create-employee-category-table
+#      author: houba
+#      changes:
+#        - createTable:
+#            tableName: employee_category
+#            columns:
+#              - column:
+#                  name: id
+#                  type: uuid
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: employee_id
+#                  type: uuid
+#              - column:
+#                  name: category_id
+#                  type: uuid
+#  - changeSet:
+#      id: create-assessment-table
+#      author: houba
+#      changes:
+#        - createTable:
+#            tableName: assessment
+#            columns:
+#              - column:
+#                  name: id
+#                  type: uuid
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: employee_category_id
+#                  type: uuid
+#              - column:
+#                  name: skill_id
+#                  type: uuid
+#              - column:
+#                  name: is_certified
+#                  type: boolean
+#              - column:
+#                  name: is_preferred
+#                  type: boolean
+#              - column:
+#                  name: level
+#                  type: int
+#  - changeSet:
+#      id: adding-table-Project
+#      author: houba
+#      changes:
+#        - createTable:
+#            tableName: project
+#            columns:
+#              - column:
+#                  name: id
+#                  type: uuid
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: name
+#                  type: varchar(255)
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: description
+#                  type: varchar(255)
+#              - column:
+#                  name: start_date
+#                  type: datetime
+#              - column:
+#                  name: end_date
+#                  type: datetime
+#
+#  - changeSet:
+#      id: adding-table-employee_project
+#      author: houba
+#      changes:
+#        - createTable:
+#            tableName: employee_project
+#            columns:
+#              - column:
+#                  name: id
+#                  type: uuid
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: employee_id
+#                  type: uuid
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: project_id
+#                  type: uuid
+#  - changeSet:
+#      id: adding-foreign-key-Project
+#      author: houba
+#      changes:
+#        - addForeignKeyConstraint:
+#            baseColumnNames: project_id
+#            baseTableName: employee_project
+#            constraintName: FK_USERPROJECT_ON_PROJECT
+#            referencedColumnNames: id
+#            referencedTableName: project
+#  - changeSet:
+#      id: adding-FOREIGN-KEY-employee-project
+#      AUTHOR: houba
+#      changes:
+#        - addForeignKeyConstraint:
+#            baseColumnNames: employee_id
+#            baseTableName: employee_project
+#            constraintName: FK_USERPROJECT_ON_EMPLOYEE
+#            referencedColumnNames: id
+#            referencedTableName: employee
+#
+#  - changeSet:
+#      id: foreign-key-skill-category
+#      author: houba
+#      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+#      changes:
+#        - addForeignKeyConstraint:
+#            baseColumnNames: category_id
+#            baseTableName: skill
+#            constraintName: FK_SKILL_ON_CATEGORY
+#            referencedColumnNames: id
+#            referencedTableName: category
+#  - changeSet:
+#      id: foreign-key-employee-category-employee
+#      author: houba
+#      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+#      changes:
+#        - addForeignKeyConstraint:
+#            baseColumnNames: employee_id
+#            baseTableName: employee_category
+#            constraintName: FK_EMPLOYEE_CATEGORY_ON_EMPLOYEE
+#            referencedColumnNames: id
+#            referencedTableName: employee
+#  - changeSet:
+#      id: foreign-key-employee-category-category
+#      author: houba
+#      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+#      changes:
+#        - addForeignKeyConstraint:
+#            baseColumnNames: category_id
+#            baseTableName: employee_category
+#            constraintName: FK_EMPLOYEE_CATEGORY_ON_CATEGORY
+#            referencedColumnNames: id
+#            referencedTableName: category
+#  - changeSet:
+#      id: foreign-key-assessment-employee-category
+#      author: houba
+#      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+#      changes:
+#        - addForeignKeyConstraint:
+#            baseColumnNames: employee_category_id
+#            baseTableName: assessment
+#            constraintName: FK_ASSESSMENT_ON_EMPLOYEE_CATEGORY
+#            referencedColumnNames: id
+#            referencedTableName: employee_category
+#  - changeSet:
+#      id: foreign-key-assessment-skill
+#      author: houba
+#      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+#      changes:
+#        - addForeignKeyConstraint:
+#            baseColumnNames: skill_id
+#            baseTableName: assessment
+#            constraintName: FK_ASSESSMENT_ON_SKILL
+#            referencedColumnNames: id
+#            referencedTableName: skill
+#  - changeSet:
+#      id: add-fields-to-assessment-table
+#      author: houba
+#      changes:
+#        - addColumn:
+#            tableName: assessment
+#            columns:
+#              - column:
+#                  name: comment
+#                  type: varchar(255)
+#              - column:
+#                  name: assessment_type
+#                  type: varchar(255)
+#              - column:
+#                  name: assessment_by
+#                  type: varchar(255)
+#  - changeSet:
+#      id: add-job-to-employee
+#      author: houba
+#      changes:
+#        - addColumn:
+#            tableName: employee
+#            columns:
+#              - column:
+#                  name: job
+#                  type: varchar(255)
+#                  constraints:
+#                    nullable: true

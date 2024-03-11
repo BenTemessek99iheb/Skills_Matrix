@@ -1,0 +1,50 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+        exclude: shutdown
+      base-path: /
+  info:
+    git:
+      mode: full
+  endpoint:
+    health:
+      show-details: always
+info:
+  app:
+    name: SKILLS-MATRIX
+    description: Application for managing skills matrix
+    version: 1.0.0
+    contact:
+      name: Java Chapter
+      email: elyadata.java@elyadata.com
+logging:
+  level:
+    org:
+      springframework: INFO
+    com:
+      stub: INFO
+spring:
+
+  main:
+    web-application-type: servlet
+  application:
+    name: SKILLS-MATRIX
+  cloud:
+    vault:
+      enabled: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/elyadata-matrix
+    username: postgres
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+#  liquibase:
+#    change-log: classpath:db/db.changelog-master.yaml
+server:
+  port: 8083
